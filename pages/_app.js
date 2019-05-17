@@ -1,5 +1,5 @@
-import App, { Container } from "next/app";
-import Layout from "../components/Layout";
+import App, { Container } from 'next/app';
+import Layout from '../components/Layout';
 
 export default class extends App {
   static async getInitialProps({ Component, ctx }) {
@@ -7,7 +7,6 @@ export default class extends App {
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx);
     }
-    pageProps.query = ctx.query;
     return { pageProps };
   }
 
