@@ -1,0 +1,23 @@
+{
+  "name": "probable-waffle",
+  "version": "1.0.0",
+  "repository": "git@github.com:rfoel/probable-waffle.git",
+  "author": "Rafael Franco <rafaelfr@outlook.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
+    "export": "next build && next export"
+  },
+  "dependencies": {
+    "@rebasejs/rebase": "^1.1.0",
+    "next": "^8.1.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "styled-components": "^4.2.0"
+  },
+  "devDependencies": {
+    "babel-plugin-styled-components": "^1.10.0"
+  }
+}
