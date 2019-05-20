@@ -44,16 +44,14 @@ const Repositories = props => {
         <FilterRepositories />
         <Sort />
       </Flex>
-      {!repositories.length && !loading && (
+      {!repositories.length && !loading && !query && (
         <Box my={3}>This user has no repositories.</Box>
+      )}
+      {!repositories.length && !loading && query && (
+        <Box my={4}>No repositories found with the search term "{query}"</Box>
       )}
       {repositories.length > 0 && (
         <BottomScrollListener onBottom={handleOnScroll} offset={500}>
-          {!repositories.length && !loading && (
-            <Box my={4}>
-              No repositories found with the search term "{query}"
-            </Box>
-          )}
           {repositories.map(repository => (
             <Link
               key={repository.id}

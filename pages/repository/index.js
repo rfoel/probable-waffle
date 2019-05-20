@@ -12,14 +12,18 @@ Page.getInitialProps = async ctx => {
     state.user.data.login !== query.user ||
     state.repository.repository.name !== query.repository
   ) {
-    await store.dispatch.user.asyncFetchUser(query.user);
-    await store.dispatch.repository.asyncFetchRepository({
-      name: query.repository,
-    });
-    await store.dispatch.repository.asyncFetchCommits({
-      name: query.repository,
-      after: null,
-    });
+    try {
+      await store.dispatch.user.asyncFetchUser(query.user);
+      await store.dispatch.repository.asyncFetchRepository({
+        name: query.repository,
+      });
+      await store.dispatch.repository.asyncFetchCommits({
+        name: query.repository,
+        after: null,
+      });
+    } catch (error) {
+      return { statusCode: 404 };
+    }
   }
   return {};
 };

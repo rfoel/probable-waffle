@@ -12,11 +12,13 @@ const Input = styled(Box)(
     background: props.dark
       ? lighten(0.12, props.theme.colors.dark)
       : props.theme.colors.light,
+    color: props.dark ? props.theme.colors.light : props.theme.colors.dark,
     borderColor: props.dark
       ? 'transparent !important'
       : darken(0.12, props.theme.colors.light),
     ':focus': {
       background: 'white',
+      color: props.theme.colors.dark,
       borderColor: props.dark
         ? lighten(0.12, props.theme.colors.dark)
         : darken(0.12, props.theme.colors.light),

@@ -38,7 +38,7 @@ const Search = props => {
   useOnClickOutside(ref, () => setDisplaySearchResults(false));
 
   useEffect(() => {
-    if (list.length > 0 && value.length > 0) setDisplaySearchResults(true);
+    if (value.length > 0) setDisplaySearchResults(true);
   }, [list]);
 
   const search = useCallback(

@@ -1,4 +1,5 @@
 import App, { Container } from 'next/app';
+import Error from './_error';
 import { Provider } from 'react-redux';
 
 import withRematch from '../store/withRematch';
@@ -13,7 +14,11 @@ class ProbableWaffle extends App {
       <Container>
         <Provider store={reduxStore}>
           <Layout>
-            <Component {...pageProps} />
+            {pageProps.statusCode ? (
+              <Error statusCode={pageProps.statusCode} />
+            ) : (
+              <Component {...pageProps} />
+            )}
           </Layout>
         </Provider>
       </Container>
