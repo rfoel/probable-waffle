@@ -34,22 +34,21 @@ const Repositories = props => {
       p={3}
       mb={4}
     >
+      <Flex
+        justifyContent="space-between"
+        alignItems="center"
+        width="100%"
+        style={{ maxWidth: '800px' }}
+        mb={3}
+      >
+        <FilterRepositories />
+        <Sort />
+      </Flex>
       {!repositories.length && !loading && (
         <Box my={3}>This user has no repositories.</Box>
       )}
       {repositories.length > 0 && (
         <BottomScrollListener onBottom={handleOnScroll} offset={500}>
-          <Flex
-            justifyContent="space-between"
-            alignItems="center"
-            width="100%"
-            style={{ maxWidth: '800px' }}
-            mb={3}
-          >
-            <FilterRepositories />
-            <Sort />
-          </Flex>
-
           {!repositories.length && !loading && (
             <Box my={4}>
               No repositories found with the search term "{query}"
@@ -67,9 +66,9 @@ const Repositories = props => {
               <Repository {...repository} style={{ cursor: 'pointer' }} />
             </Link>
           ))}
-          {loading && <Loader />}
         </BottomScrollListener>
       )}
+      {loading && <Loader />}
     </Flex>
   );
 };
