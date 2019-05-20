@@ -1,5 +1,5 @@
 module.exports = {
   publicRuntimeConfig: {
-    GITHUB_KEY: process.env.GITHUB_KEY,
+    GITHUB_TOKEN: process.env.GITHUB_TOKEN,
   },
 };
