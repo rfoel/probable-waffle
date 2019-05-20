@@ -34,7 +34,9 @@ const Repositories = props => {
       p={3}
       mb={4}
     >
-      {!repositories.length && <Box my={3}>This user has no repositories.</Box>}
+      {!repositories.length && !loading && (
+        <Box my={3}>This user has no repositories.</Box>
+      )}
       {repositories.length > 0 && (
         <BottomScrollListener onBottom={handleOnScroll} offset={500}>
           <Flex
