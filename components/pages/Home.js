@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import { Flex, Badge } from '@rebasejs/rebase';
+import { Flex, Box, Badge } from '@rebasejs/rebase';
 
-import SearchBar from '../Search';
-import { Box } from '@rebasejs/rebase/dist/Box';
+import Search from '../Search';
+import Icon from '../Icon';
 
 export default () => (
   <Flex
@@ -11,8 +11,11 @@ export default () => (
     flexDirection="column"
     height="100%"
   >
+    <Box mb={4}>
+      <Icon name="logo" height={100} />
+    </Box>
     <Box>
-      <SearchBar />
+      <Search />
     </Box>
     <Box my={4}>
       or try one of these

@@ -1,5 +1,7 @@
 import Head from 'next/head';
+import Router from 'next/router';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
+import NProgress from 'nprogress';
 
 import Footer from './Footer';
 
@@ -43,7 +45,47 @@ const GlobalStyle = createGlobalStyle`
     flex-direction: column;
     flex-grow: 1
   }
+  a {
+    cursor: pointer;
+  }
+
+  // NProgress
+  #nprogress {
+    pointer-events: none;
+  }
+
+  #nprogress .bar {
+    background: #0366d6;
+    position: fixed;
+    z-index: 1031;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+  }
+
+  #nprogress .peg {
+    display: block;
+    position: absolute;
+    right: 0px;
+    width: 100px;
+    height: 100%;
+    box-shadow: 0 0 10px #0366d6, 0 0 5px #0366d6;
+    opacity: 1;
+    transform: rotate(3deg) translate(0px, -4px);
+  }
 `;
+
+Router.onRouteChangeStart = () => {
+  NProgress.start();
+};
+Router.onRouteChangeComplete = () => {
+  NProgress.done();
+};
+
+Router.onRouteChangeError = () => {
+  NProgress.done();
+};
 
 export default ({ children, title = 'Probable Waffle' }) => (
   <ThemeProvider theme={theme}>

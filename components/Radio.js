@@ -1,6 +1,6 @@
 import { Flex, Box } from '@rebasejs/rebase';
 
-export default ({ name, value, label, onChange, checked }) => (
+export default ({ name, value, onChange, checked, children }) => (
   <Flex as="label" mx={2}>
     <Box
       as="input"
@@ -11,6 +11,6 @@ export default ({ name, value, label, onChange, checked }) => (
       onChange={onChange}
       checked={checked}
     />
-    {label}
+    {children}
   </Flex>
 );

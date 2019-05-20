@@ -1,24 +1,24 @@
 import App, { Container } from 'next/app';
+import { Provider } from 'react-redux';
+
+import withRematch from '../store/withRematch';
+
 import Layout from '../components/Layout';
 
-export default class extends App {
-  static async getInitialProps({ Component, ctx }) {
-    let pageProps = {};
-    if (Component.getInitialProps) {
-      pageProps = await Component.getInitialProps(ctx);
-    }
-    return { pageProps };
-  }
-
+class ProbableWaffle extends App {
   render() {
-    const { Component, pageProps } = this.props;
+    const { Component, pageProps, reduxStore } = this.props;
 
     return (
       <Container>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <Provider store={reduxStore}>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </Provider>
       </Container>
     );
   }
 }
+
+export default withRematch(ProbableWaffle);

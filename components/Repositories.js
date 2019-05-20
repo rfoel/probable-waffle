@@ -1,72 +1,87 @@
-import Link from 'next/link';
-import styled from 'styled-components';
-import { darken, lighten } from 'polished';
-import { Flex, Box, Badge } from '@rebasejs/rebase';
+import { Flex, Box } from '@rebasejs/rebase';
+import { connect } from 'react-redux';
+import BottomScrollListener from 'react-bottom-scroll-listener';
 
-import Filter from './Filter';
-import OrderBy from './OrderBy';
-import Icon from './Icon';
+import routes from '../routes';
 
-const Repository = styled(Box)(
-  {
-    cursor: 'pointer',
-  },
-  props => ({
-    border: `1px solid${darken(0.03, props.theme.colors.light)}`,
-    ':hover': {
-      background: lighten(0.03, props.theme.colors.light),
-    },
-  }),
-);
+import Repository from './Repository';
+import FilterRepositories from './FilterRepositories';
+import Sort from './Sort';
+import Loader from './Loader';
 
-export default () => (
-  <Flex
-    justifyContent="center"
-    alignItems="center"
-    flexDirection="column"
-    p={3}
-  >
+const { Link } = routes;
+
+const Repositories = props => {
+  const {
+    repositories: { data: repositories, pagination, query },
+    loading,
+    asyncFetchRepositories,
+  } = props;
+
+  const handleOnScroll = () => {
+    if (pagination.hasNextPage) {
+      asyncFetchRepositories({
+        after: pagination.endCursor,
+      });
+    }
+  };
+
+  return (
     <Flex
-      justifyContent="space-between"
+      justifyContent="center"
       alignItems="center"
-      width="100%"
-      style={{ maxWidth: '800px' }}
-      mb={3}
+      flexDirection="column"
+      p={3}
+      mb={4}
     >
-      <Filter placeholder="Search for a repository" />
-      <OrderBy />
-    </Flex>
-
-    <Link href="/rfoel/bulma-toast">
-      <Repository
-        width="100%"
-        p={3}
-        style={{ maxWidth: '800px', borderRadius: '10px' }}
-      >
-        <Flex justifyContent="space-between" fontSize={3}>
-          <Box>bulma-toast</Box>
-          <Flex>
-            <Flex mr={3}>
-              <Icon name="star" height={15} mr={1} />3
-            </Flex>
-            <Flex>
-              <Icon name="code-branch" height={15} mr={1} />
-              14
-            </Flex>
+      {!repositories.length && <Box my={3}>This user has no repositories.</Box>}
+      {repositories.length > 0 && (
+        <BottomScrollListener onBottom={handleOnScroll} offset={500}>
+          <Flex
+            justifyContent="space-between"
+            alignItems="center"
+            width="100%"
+            style={{ maxWidth: '800px' }}
+            mb={3}
+          >
+            <FilterRepositories />
+            <Sort />
           </Flex>
-        </Flex>
-        <Box color="gray" fontSize={1} mt={2}>
-          Bulma's pure JavaScript extension to display toasts
-        </Box>
-        <Box mt={2}>
-          <Badge variant="light" mr={1}>
-            bulma
-          </Badge>
-          <Badge variant="light" m={1}>
-            toast
-          </Badge>
-        </Box>
-      </Repository>
-    </Link>
-  </Flex>
-);
+
+          {!repositories.length && !loading && (
+            <Box my={4}>
+              No repositories found with the search term "{query}"
+            </Box>
+          )}
+          {repositories.map(repository => (
+            <Link
+              key={repository.id}
+              route="repository"
+              params={{
+                user: repository.owner.login,
+                repository: repository.name,
+              }}
+            >
+              <Repository {...repository} style={{ cursor: 'pointer' }} />
+            </Link>
+          ))}
+          {loading && <Loader />}
+        </BottomScrollListener>
+      )}
+    </Flex>
+  );
+};
+
+const mapState = state => ({
+  repositories: state.repositories,
+  loading: state.loading.effects.repositories.asyncFetchRepositories,
+});
+
+const mapDispatch = ({ repositories: { asyncFetchRepositories } }) => ({
+  asyncFetchRepositories,
+});
+
+export default connect(
+  mapState,
+  mapDispatch,
+)(Repositories);
